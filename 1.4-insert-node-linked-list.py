@@ -41,16 +41,16 @@ class SinglyLinkedList:
 #
 #
 def insertNodeAtPosition(head, data, position):
-    if position == 0:
-        new_node = SinglyLinkedListNode(data)
+    new_node = SinglyLinkedListNode(data)
+
+    if position == 0:    
         new_node.next = head
         return new_node
 
     curr_node = head
     for _ in range(position-1):
         curr_node = curr_node.next
-
-    new_node = SinglyLinkedListNode(data)
+        
     new_node.next = curr_node.next
     curr_node.next = new_node
 
