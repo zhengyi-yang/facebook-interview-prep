@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Sep 12 16:34:40 2020
+Created on Sat Sep 13 14:35:52 2020
 
 @author: zhengyi
 
-https://www.hackerrank.com/challenges/ctci-array-left-rotation/problem
+https://www.hackerrank.com/challenges/detect-whether-a-linked-list-contains-a-cycle/problem
 """
 
 
@@ -49,9 +49,6 @@ def print_singly_linked_list(node, sep, fptr):
 #     int data
 #     SinglyLinkedListNode next
 #
-#
-
-
 def has_cycle(head):
     slow = head  # travel one node at a time
     fast = head  # travel two nodes at a time
