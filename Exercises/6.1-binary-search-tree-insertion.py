@@ -37,23 +37,22 @@ class BinarySearchTree:
 
         if self.root is None:
             self.root = new
-            return self.root
-
-        node = self.root
-        while True:
-            if val < node.info:
-                if node.left is None:
-                    node.left = new
-                    break
+        else:
+            node = self.root
+            while True:
+                if val < node.info:
+                    if node.left is None:
+                        node.left = new
+                        break
+                    else:
+                        node = node.left
+                elif val > node.info:
+                    if node.right is None:
+                        node.right = new
+                        break
+                    else:
+                        node = node.right
                 else:
-                    node = node.left
-            elif val > node.info:
-                if node.right is None:
-                    node.right = new
                     break
-                else:
-                    node = node.right
-            else:
-                break
 
         return self.root
