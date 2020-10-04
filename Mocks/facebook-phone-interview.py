@@ -109,11 +109,11 @@ class BinaryTreeRightSideView:
     '''
     https://leetcode.com/problems/binary-tree-right-side-view/
     Definition for a binary tree node.
-     class TreeNode:
-         def __init__(self, val=0, left=None, right=None):
-             self.val = val
-             self.left = left
-             self.right = right
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
     '''
 
     def rightSideView(self, root):
@@ -180,3 +180,36 @@ class PermutationInString:
             else:
                 counter[c] = 1
         return counter
+
+
+class SmallestSubtreeAllDeepestNodes:
+    '''
+    https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes/
+    Definition for a binary tree node.
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+    '''
+
+    def subtreeWithAllDeepest(self, root):
+        node, _ = self._dfs(root, 0)
+        return node
+
+    def _dfs(self, node, depth):
+        if not node:
+            return None, 0
+
+        if not node.left and not node.right:
+            return node, depth
+
+        lnode, ldep = self._dfs(node.left, depth+1)
+        rnode, rdep = self._dfs(node.right, depth+1)
+
+        if ldep == rdep:
+            return (node, ldep)
+        elif ldep > rdep:
+            return (lnode, ldep)
+        else:
+            return (rnode, rdep)
