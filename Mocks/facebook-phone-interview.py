@@ -3,6 +3,35 @@ Mock Phone Interviews of Facebook on LeetCode
 '''
 
 
+class Palindrome:
+    '''
+    https: // leetcode.com/problems/valid-palindrome/
+    '''
+
+    def isPalindrome(self, s):
+        s = ''.join(c for c in s if c.isalnum()).lower()
+        return s == s[::-1]
+
+
+class Palindrome2:
+    '''
+    https://leetcode.com/problems/valid-palindrome-ii/
+    '''
+
+    def validPalindrome(self, s: str) -> bool:
+        i = 0
+        j = len(s)-1
+
+        while i < j:
+            if s[i] == s[j]:
+                i += 1
+                j -= 1
+            else:
+                return s[i:j] == s[i:j][::-1] or s[i+1:j+1] == s[i+1:j+1][::-1]
+
+        return True
+
+
 class Tribonacci:
     '''
     https://leetcode.com/problems/n-th-tribonacci-number/
@@ -194,22 +223,57 @@ class SmallestSubtreeAllDeepestNodes:
     '''
 
     def subtreeWithAllDeepest(self, root):
-        node, _ = self._dfs(root, 0)
+        def dfs(node, depth):
+            if not node:
+                return None, 0
+
+            if not node.left and not node.right:
+                return node, depth
+
+            lnode, ldep = dfs(node.left, depth+1)
+            rnode, rdep = dfs(node.right, depth+1)
+
+            if ldep == rdep:
+                return (node, ldep)
+            elif ldep > rdep:
+                return (lnode, ldep)
+            else:
+                return (rnode, rdep)
+
+        node, _ = dfs(root, 0)
         return node
 
-    def _dfs(self, node, depth):
-        if not node:
-            return None, 0
 
-        if not node.left and not node.right:
-            return node, depth
+class ExpressionAddOperators:
+    '''
+    https://leetcode.com/problems/expression-add-operators/
+    '''
 
-        lnode, ldep = self._dfs(node.left, depth+1)
-        rnode, rdep = self._dfs(node.right, depth+1)
+    def addOperators(self, num, target):
+        if not num:
+            return []
 
-        if ldep == rdep:
-            return (node, ldep)
-        elif ldep > rdep:
-            return (lnode, ldep)
-        else:
-            return (rnode, rdep)
+        result = []
+
+        def dfs(prefix, num, target):
+            if not num:
+                if eval(prefix) == target:
+                    result.append(prefix)
+                return
+
+            if not prefix or not prefix[-1].isnumeric():
+                if num[0] == '0':
+                    dfs(prefix+'0', num[1:], target)
+                else:
+                    for i in range(1, len(num)+1):
+                        new_prefix = prefix+num[:i]
+                        new_num = num[i:]
+                        dfs(new_prefix, new_num, target)
+            else:
+                for op in ('+', '-', '*'):
+                    new_prefix = prefix+op
+                    dfs(new_prefix, num, target)
+
+        dfs('', num, target)
+
+        return result
