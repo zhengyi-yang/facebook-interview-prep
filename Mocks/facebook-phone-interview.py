@@ -345,6 +345,30 @@ class ExpressionAddOperators:
         return result
 
 
+class SubarraySumEqualsK:
+    '''
+    https://leetcode.com/problems/subarray-sum-equals-k/
+    '''
+
+    def subarraySum(self, nums, k):
+        sum_map = {0: 1}
+        cur_sum = 0
+        count = 0
+
+        for n in nums:
+            cur_sum += n
+
+            if cur_sum-k in sum_map:
+                count += sum_map[cur_sum-k]
+
+            if cur_sum in sum_map:
+                sum_map[cur_sum] += 1
+            else:
+                sum_map[cur_sum] = 1
+
+        return count
+
+
 class LongestSubstringKDistinctCharacters:
     '''
     https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
