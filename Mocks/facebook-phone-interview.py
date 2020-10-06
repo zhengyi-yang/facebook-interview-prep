@@ -2,6 +2,8 @@
 Mock Phone Interviews of Facebook on LeetCode
 '''
 
+# Easy
+
 
 class Tribonacci:
     '''
@@ -145,6 +147,17 @@ class IntersectionArrays2:
                 result.extend([num] * min_count)
 
         return result
+
+# Medium
+
+
+class BulbSwitch:
+    '''
+    https://leetcode.com/problems/bulb-switcher/
+    '''
+
+    def bulbSwitch(self, n):
+        return int(n**0.5)
 
 
 class SparseVector:
@@ -332,6 +345,8 @@ class SubarraySumEqualsK:
                 sum_map[cur_sum] = 1
 
         return count
+
+# Hard
 
 
 class LongestSubstringKDistinctCharacters:
