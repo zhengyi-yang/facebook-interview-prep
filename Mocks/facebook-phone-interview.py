@@ -310,41 +310,6 @@ class SmallestSubtreeAllDeepestNodes:
         return node
 
 
-class ExpressionAddOperators:
-    '''
-    https://leetcode.com/problems/expression-add-operators/
-    '''
-
-    def addOperators(self, num, target):
-        if not num:
-            return []
-
-        result = []
-
-        def dfs(prefix, num, target):
-            if not num:
-                if eval(prefix) == target:
-                    result.append(prefix)
-                return
-
-            if not prefix or not prefix[-1].isnumeric():
-                if num[0] == '0':
-                    dfs(prefix+'0', num[1:], target)
-                else:
-                    for i in range(1, len(num)+1):
-                        new_prefix = prefix+num[:i]
-                        new_num = num[i:]
-                        dfs(new_prefix, new_num, target)
-            else:
-                for op in ('+', '-', '*'):
-                    new_prefix = prefix+op
-                    dfs(new_prefix, num, target)
-
-        dfs('', num, target)
-
-        return result
-
-
 class SubarraySumEqualsK:
     '''
     https://leetcode.com/problems/subarray-sum-equals-k/
@@ -405,3 +370,38 @@ class LongestSubstringKDistinctCharacters:
                     j = i
 
         return longest
+
+
+class ExpressionAddOperators:
+    '''
+    https://leetcode.com/problems/expression-add-operators/
+    '''
+
+    def addOperators(self, num, target):
+        if not num:
+            return []
+
+        result = []
+
+        def dfs(prefix, num, target):
+            if not num:
+                if eval(prefix) == target:
+                    result.append(prefix)
+                return
+
+            if not prefix or not prefix[-1].isnumeric():
+                if num[0] == '0':
+                    dfs(prefix+'0', num[1:], target)
+                else:
+                    for i in range(1, len(num)+1):
+                        new_prefix = prefix+num[:i]
+                        new_num = num[i:]
+                        dfs(new_prefix, new_num, target)
+            else:
+                for op in ('+', '-', '*'):
+                    new_prefix = prefix+op
+                    dfs(new_prefix, num, target)
+
+        dfs('', num, target)
+
+        return result
