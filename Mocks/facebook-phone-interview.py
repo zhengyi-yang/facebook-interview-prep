@@ -125,6 +125,28 @@ class IntersectionArrays:
         return result
 
 
+class IntersectionArrays2:
+    '''
+    https://leetcode.com/problems/intersection-of-two-arrays-ii/
+    '''
+    from collections import Counter
+
+    def intersect(self, nums1, nums2):
+        nums1_counter = Counter(nums1)
+        nums2_counter = Counter(nums2)
+        result = []
+
+        if len(nums1_counter) > len(nums2_counter):
+            nums1_counter, nums2_counter = nums2_counter, nums1_counter
+
+        for num, count in nums1_counter.items():
+            if num in nums2_counter:
+                min_count = min(count, nums2_counter[num])
+                result.extend([num] * min_count)
+
+        return result
+
+
 class SparseVector:
     '''
     https://leetcode.com/problems/dot-product-of-two-sparse-vectors/
@@ -153,13 +175,14 @@ class PermutationInString:
     '''
     https://leetcode.com/problems/permutation-in-string/
     '''
+    from collections import Counter
 
     def checkInclusion(self, s1, s2):
         if len(s2) < len(s1):
             return False
 
-        s1_counter = self._buildCounter(s1)
-        s2_counter = self._buildCounter(s2[0:len(s1)])
+        s1_counter = Counter(s1)
+        s2_counter = Counter(s2[0:len(s1)])
 
         for i in range(len(s2)-len(s1)):
             if s1_counter == s2_counter:
@@ -178,15 +201,6 @@ class PermutationInString:
                     s2_counter[next_char] = 1
 
         return s1_counter == s2_counter
-
-    def _buildCounter(self, s):
-        counter = {}
-        for c in s:
-            if c in counter:
-                counter[c] += 1
-            else:
-                counter[c] = 1
-        return counter
 
 
 class VerticalOrderTraversal:
@@ -329,3 +343,41 @@ class ExpressionAddOperators:
         dfs('', num, target)
 
         return result
+
+
+class LongestSubstringKDistinctCharacters:
+    '''
+    https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
+    '''
+
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        if not s or not k:
+            return 0
+
+        counter = {s[0]: 1}
+        longest = 0
+        i, j = 0, 0
+
+        while True:
+            if len(counter) <= k:
+                longest = max(longest, j-i+1)
+                j += 1
+
+                if j >= len(s):
+                    break
+                else:
+                    if s[j] in counter:
+                        counter[s[j]] += 1
+                    else:
+                        counter[s[j]] = 1
+            else:
+                if counter[s[i]] == 1:
+                    del counter[s[i]]
+                else:
+                    counter[s[i]] -= 1
+
+                i += 1
+                if i > j:
+                    j = i
+
+        return longest
