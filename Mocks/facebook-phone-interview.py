@@ -3,6 +3,26 @@ Mock Phone Interviews of Facebook on LeetCode
 '''
 
 
+class Tribonacci:
+    '''
+    https://leetcode.com/problems/n-th-tribonacci-number/
+    '''
+
+    def tribonacci(self, n):
+        if n == 0:
+            return 0
+        if n == 1 or n == 2:
+            return 1
+        # return self.tribonacci(n-3) + self.tribonacci(n-2) + self.tribonacci(n-1)
+
+        t0, t1, t2 = 0, 1, 1
+
+        for _ in range(n-2):
+            t0, t1, t2 = t1, t2, t0 + t1 + t2
+
+        return t2
+
+
 class Palindrome:
     '''
     https: // leetcode.com/problems/valid-palindrome/
@@ -32,26 +52,6 @@ class Palindrome2:
         return True
 
 
-class Tribonacci:
-    '''
-    https://leetcode.com/problems/n-th-tribonacci-number/
-    '''
-
-    def tribonacci(self, n):
-        if n == 0:
-            return 0
-        if n == 1 or n == 2:
-            return 1
-        # return self.tribonacci(n-3) + self.tribonacci(n-2) + self.tribonacci(n-1)
-
-        t0, t1, t2 = 0, 1, 1
-
-        for _ in range(n-2):
-            t0, t1, t2 = t1, t2, t0 + t1 + t2
-
-        return t2
-
-
 class VerifyingAnAlienDictionary:
     '''
     https://leetcode.com/problems/verifying-an-alien-dictionary/
@@ -74,6 +74,23 @@ class VerifyingAnAlienDictionary:
                 return True
 
         return len(word1) > len(word2)
+
+
+class MoveZeroes:
+    '''
+    https://leetcode.com/problems/move-zeroes/
+    '''
+
+    def moveZeroes(self, nums):
+        '''
+        Do not return anything, modify nums in-place instead.
+        '''
+        zero = 0
+
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[zero], nums[i] = nums[i], nums[zero]
+                zero += 1
 
 
 class IntersectionArrays:
@@ -132,45 +149,6 @@ class SparseVector:
         return result
 
 
-class BinaryTreeRightSideView:
-    from collections import deque
-
-    '''
-    https://leetcode.com/problems/binary-tree-right-side-view/
-    Definition for a binary tree node.
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-    '''
-
-    def rightSideView(self, root):
-        if not root:
-            return []
-
-        result = []
-        queue = deque()
-        queue.append((0, root))
-
-        curr_level = 0
-        curr_right = None
-
-        while queue:
-            level, node = queue.popleft()
-
-            if level > curr_level:
-                curr_level = level
-                result.append(curr_right)
-
-            if node:
-                curr_right = node.val
-                queue.append((level+1, node.left))
-                queue.append((level+1, node.right))
-
-        return result
-
-
 class PermutationInString:
     '''
     https://leetcode.com/problems/permutation-in-string/
@@ -209,6 +187,80 @@ class PermutationInString:
             else:
                 counter[c] = 1
         return counter
+
+
+class VerticalOrderTraversal:
+    '''
+    https://leetcode.com/problems/binary-tree-vertical-order-traversal/
+    Definition for a binary tree node.
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+    '''
+    from collections import deque
+
+    def verticalOrder(self, root):
+        if not root:
+            return []
+
+        cols = {}
+        queue = deque()
+        queue.append((root, 0))
+
+        while queue:
+            node, col = queue.popleft()
+            if col in cols:
+                cols[col].append(node.val)
+            else:
+                cols[col] = [node.val]
+
+            if node.left:
+                queue.append((node.left, col-1))
+
+            if node.right:
+                queue.append((node.right, col+1))
+
+        return [l for _, l in sorted(cols.items())]
+
+
+class BinaryTreeRightSideView:
+    '''
+    https://leetcode.com/problems/binary-tree-right-side-view/
+    Definition for a binary tree node.
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+    '''
+    from collections import deque
+
+    def rightSideView(self, root):
+        if not root:
+            return []
+
+        result = []
+        queue = deque()
+        queue.append((0, root))
+
+        curr_level = 0
+        curr_right = None
+
+        while queue:
+            level, node = queue.popleft()
+
+            if level > curr_level:
+                curr_level = level
+                result.append(curr_right)
+
+            if node:
+                curr_right = node.val
+                queue.append((level+1, node.left))
+                queue.append((level+1, node.right))
+
+        return result
 
 
 class SmallestSubtreeAllDeepestNodes:
