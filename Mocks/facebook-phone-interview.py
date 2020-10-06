@@ -350,7 +350,7 @@ class LongestSubstringKDistinctCharacters:
     https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
     '''
 
-    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+    def lengthOfLongestSubstringKDistinct(self, s, k):
         if not s or not k:
             return 0
 
