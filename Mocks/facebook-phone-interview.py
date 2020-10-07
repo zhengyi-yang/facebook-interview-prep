@@ -323,6 +323,26 @@ class SmallestSubtreeAllDeepestNodes:
         return node
 
 
+class NumMatrix:
+    '''
+    https://leetcode.com/problems/range-sum-query-2d-immutable/
+    '''
+
+    def __init__(self, matrix):
+        if not matrix or not matrix[0]:
+            return
+        rl, cl = len(matrix), len(matrix[0])
+        self.m = [[0 for _ in range(cl+1)] for _ in range(rl+1)]
+        for i in range(1, rl + 1):
+            for j in range(1, cl + 1):
+                self.m[i][j] = matrix[i-1][j-1] + self.m[i-1][j] + \
+                    self.m[i][j-1] - self.m[i-1][j-1]
+
+    def sumRegion(self, row1, col1, row2, col2):
+        row1, col1, row2, col2 = row1+1, col1+1, row2+1, col2+1
+        return self.m[row2][col2] - self.m[row2][col1-1] - self.m[row1 - 1][col2] + self.m[row1-1][col1-1]
+
+
 class SubarraySumEqualsK:
     '''
     https://leetcode.com/problems/subarray-sum-equals-k/
