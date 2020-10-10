@@ -154,7 +154,7 @@ class IslandPerimeter:
     https://leetcode.com/problems/island-perimeter/
     '''
 
-    def islandPerimeter(self, grid: List[List[int]]) -> int:
+    def islandPerimeter(self, grid) -> int:
         rows = len(grid)
         cols = len(grid[0])
 
@@ -366,6 +366,54 @@ class NumMatrix:
     def sumRegion(self, row1, col1, row2, col2):
         row1, col1, row2, col2 = row1+1, col1+1, row2+1, col2+1
         return self.m[row2][col2] - self.m[row2][col1-1] - self.m[row1 - 1][col2] + self.m[row1-1][col1-1]
+
+
+class ReorderList:
+    '''
+    https://leetcode.com/problems/reorder-list/
+    '''
+
+    def reorderList(self, head):
+        if not head:
+            return
+
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        prev, curr = None, slow
+        while curr:
+            curr.next, prev, curr = prev, curr, curr.next
+
+        first, second = head, prev
+        while second.next:
+            first.next, first = second, first.next
+            second.next, second = first, second.next
+
+
+class CloneGraph:
+    '''
+    https://leetcode.com/problems/clone-graph/
+    '''
+
+    def cloneGraph(self, node):
+        if not node:
+            return None
+
+        def helper(node, visited={}):
+            val = node.val
+            if val in visited:
+                return visited[val]
+
+            clone = Node(val)
+            visited[val] = clone
+
+            clone.neighbors = [helper(n, visited) for n in node.neighbors]
+
+            return clone
+
+        return helper(node)
 
 
 class SubarraySumEqualsK:
