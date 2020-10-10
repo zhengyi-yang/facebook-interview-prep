@@ -241,6 +241,33 @@ class PermutationInString:
         return s1_counter == s2_counter
 
 
+class CompleteTree:
+    '''
+    https://leetcode.com/problems/check-completeness-of-a-binary-tree/
+    Definition for a binary tree node.
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+    '''
+
+    def isCompleteTree(self, root) -> bool:
+        if not root:
+            return True
+
+        array = [root]
+        i = 0
+
+        while array[i]:
+            node = array[i]
+            array.append(node.left)
+            array.append(node.right)
+            i += 1
+
+        return all(n is None for n in array[i:])
+
+
 class VerticalOrderTraversal:
     '''
     https://leetcode.com/problems/binary-tree-vertical-order-traversal/
@@ -371,6 +398,11 @@ class NumMatrix:
 class ReorderList:
     '''
     https://leetcode.com/problems/reorder-list/
+    Definition for singly-linked list.
+        class ListNode:
+            def __init__(self, val=0, next=None):
+                self.val = val
+                self.next = next
     '''
 
     def reorderList(self, head):
@@ -395,6 +427,11 @@ class ReorderList:
 class CloneGraph:
     '''
     https://leetcode.com/problems/clone-graph/
+    Definition for a Node.
+        class Node(object):
+            def __init__(self, val, neighbors):
+                self.val = val
+                self.neighbors = neighbors
     '''
 
     def cloneGraph(self, node):
@@ -414,6 +451,24 @@ class CloneGraph:
             return clone
 
         return helper(node)
+
+
+class LongestArithSeqLength:
+    '''
+    https://leetcode.com/problems/longest-arithmetic-subsequence/
+    '''
+
+    def longestArithSeqLength(self, A):
+        n = len(A)
+        dp = {}
+        for i in range(n):
+            for j in range(i+1, n):
+                dif = A[j]-A[i]
+                if (i, dif) in dp:
+                    dp[(j, dif)] = dp[(i, dif)]+1
+                else:
+                    dp[(j, dif)] = 2
+        return max(dp.values())
 
 
 class SubarraySumEqualsK:
