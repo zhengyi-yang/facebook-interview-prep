@@ -305,7 +305,7 @@ class CompleteTree:
                 self.right = right
     '''
 
-    def isCompleteTree(self, root) -> bool:
+    def isCompleteTree(self, root):
         if not root:
             return True
 
