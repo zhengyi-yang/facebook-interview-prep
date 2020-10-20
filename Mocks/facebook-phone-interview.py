@@ -173,6 +173,22 @@ class IslandPerimeter:
 
         return result
 
+
+class GoatLatin:
+    def toGoatLatin(self, S):
+        '''
+        https://leetcode.com/problems/goat-latin/
+        '''
+        result = []
+
+        for i, word in enumerate(S.split()):
+            if word[0].lower() not in {'a', 'e', 'i', 'o', 'u'}:
+                word = word[1:] + word[0]
+
+            result.append(word + 'ma' + 'a' * (i+1))
+
+        return ' '.join(result)
+
 # Medium
 
 
@@ -239,6 +255,43 @@ class PermutationInString:
                     s2_counter[next_char] = 1
 
         return s1_counter == s2_counter
+
+
+class FractionToDecimal:
+    '''
+    https://leetcode.com/problems/fraction-to-recurring-decimal/
+    '''
+
+    def fractionToDecimal(self, numerator, denominator):
+        sign = '' if numerator * denominator >= 0 else '-'
+        numerator = abs(numerator)
+        denominator = abs(denominator)
+        int_part, rem = divmod(numerator, denominator)
+
+        if rem == 0:
+            return sign+str(numerator//denominator)
+
+        m = {}
+        i = 0
+        repeat = None
+        digits = []
+        rem = 10 * rem
+
+        while rem:
+            if rem in m:
+                repeat = m[rem]
+                break
+
+            m[rem] = i
+            div, rem = divmod(rem, denominator)
+            digits.append(str(div))
+            rem = 10 * rem
+            i += 1
+
+        if repeat is not None:
+            return '{}{}.{}({})'.format(sign, int_part, ''.join(digits[:repeat]), ''.join(digits[repeat:]))
+
+        return '{}{}.{}'.format(sign, int_part, ''.join(digits))
 
 
 class CompleteTree:
