@@ -257,6 +257,26 @@ class PermutationInString:
         return s1_counter == s2_counter
 
 
+class NextPermutation:
+    '''
+    https://leetcode.com/problems/next-permutation/
+    '''
+
+    def nextPermutation(self, nums):
+        '''
+        Do not return anything, modify nums in-place instead.
+        '''
+        i = len(nums) - 1
+        j = i
+        while i > 0 and nums[i] <= nums[i-1]:
+            i -= 1
+        if i > 0:
+            while nums[j] <= nums[i-1]:
+                j -= 1
+            nums[i-1], nums[j] = nums[j], nums[i-1]
+        nums[i:] = reversed(nums[i:])
+
+
 class FractionToDecimal:
     '''
     https://leetcode.com/problems/fraction-to-recurring-decimal/
@@ -292,6 +312,22 @@ class FractionToDecimal:
             return '{}{}.{}({})'.format(sign, int_part, ''.join(digits[:repeat]), ''.join(digits[repeat:]))
 
         return '{}{}.{}'.format(sign, int_part, ''.join(digits))
+
+
+class LetterCombinations:
+    '''
+    https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+    '''
+    from itertools import product
+
+    def letterCombinations(self, digits):
+        if not digits:
+            return []
+
+        phone_dict = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',
+                      '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
+        digits_expand = list(map(lambda d: phone_dict[d], digits))
+        return list(map(lambda l: ''.join(l), product(*digits_expand)))
 
 
 class CompleteTree:
@@ -504,6 +540,34 @@ class CloneGraph:
             return clone
 
         return helper(node)
+
+
+class ThreeSum:
+    '''
+    https://leetcode.com/problems/3sum/
+    '''
+
+    def threeSum(self, nums):
+        res = []
+        nums.sort()
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                break
+            if i == 0 or nums[i - 1] != nums[i]:
+                self.twoSum(nums, i, res)
+        return res
+
+    def twoSum(self, nums, i, res):
+        seen = set()
+        j = i + 1
+        while j < len(nums):
+            complement = -nums[i] - nums[j]
+            if complement in seen:
+                res.append([nums[i], nums[j], complement])
+                while j + 1 < len(nums) and nums[j] == nums[j + 1]:
+                    j += 1
+            seen.add(nums[j])
+            j += 1
 
 
 class LongestArithSeqLength:
